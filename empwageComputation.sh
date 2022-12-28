@@ -8,24 +8,29 @@ totalworkingHour=0
 empRateperHr=20
 numworkingDays=20
 day=1
-while [[ $day -le 20 && $totalworkingHour -lt 100 ]]
-do
-randomcheck=$((RANDOM%3))
-case $randomcheck in $isFullTime)
+function calculateWorkingHour() {
+    case $randomcheck in $isFullTime)
                       empHrs=8;;
                      $isPartTime)
                       empHrs=4;;
                      *)
                       empHrs=0;;
 esac
-totalworkingHour=$(($totalworkingHour+$empHrs))
+  echo $empHrs
+  }
+
+while [[ $day -le 20 && $totalworkingHour -lt 100 ]]
+do
+randomcheck=$((RANDOM%3))
+wHour=$(calculateWorkingHour $randomcheck)
+totalworkingHour=$(($totalworkingHour+$wHour))
 if [ $totalworkingHour -gt 100 ]
-then
-totalworkingHour=$(($totalworkingHour-$empHrs))
-break;
-fi
-salary=$(($empRateperHr*empHrs))
-totalsalary=$(($totalsalary+$salary))
-((day++))
+then 
+     totalworkingHour=$(($totalworkingHour-$wHour))
+	 break
+	 fi
+	 salary=$(($empRateperHr$wHour))
+	 totalsalary=$(($totalsalary+$salary))
+	 ((day++))
 done
-echo "Employee has earned $totalsalary $ in a month (total working hours: $totalworkingHour)"
+echo "Employee has earned $totalsalary$ in a month (Total working Hour : $totalworkingHour)"	 
